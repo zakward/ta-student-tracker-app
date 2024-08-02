@@ -37,8 +37,26 @@ studentRouter.get("/mystudents", async (req, res, next) => {
     }
 })
 
+studentRouter.put("/:id", async (req, res, next) => {
+    try {
+        const foundStudent = await Student.findByIdAndUpdate(req.params.id, req.body, {new: true})
+        return res.status(201).send(foundStudent)
+    } catch (error) {
+        res.status(500)
+        return next(error)
+    }
+})
 
-
+studentRouter.delete("/:id", async (req, res, next) => {
+    try {   
+        const deletedStudent = await Student.findByIdAndDelete(req.params.id)
+        return res.status(201).send(`You successfully deleted ${deletedStudent.firstName} ${deletedStudent.lastName}`)
+        
+    } catch (error) {
+        res.status(500)
+        return next(error)
+    }
+})
 
 
 
